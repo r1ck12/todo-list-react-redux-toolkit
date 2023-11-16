@@ -1,0 +1,28 @@
+{
+  "todos": [
+    {
+      "id": 1700166545766,
+      "text": "do a simple app",
+      "done": false,
+      "categoryId": 1700166532356
+    },
+    {
+      "id": 1700166580026,
+      "text": "create a campaign",
+      "done": false,
+      "categoryId": 1700166571084
+    }
+  ],
+  "categories": [
+    {
+      "id": 1700166532356,
+      "name": "blockchain",
+      "color": "#9683d2"
+    },
+    {
+      "id": 1700166571084,
+      "name": "social media",
+      "color": "#fbfbf9"
+    }
+  ]
+}
