@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@radix-ui/themes';
 import TodoList from './components/TodoList/TodoList';
 import Categories from './components/Categories/Categories';
+import { baseRequest } from './utils/services/requests';
 
 function App() {
   const [categories, setCategories] = useState<any>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3001/categories');
-      const data = await response.json();
-
+      const data = await baseRequest('categories', 'GET');
       setCategories(data);
     };
     fetchData();

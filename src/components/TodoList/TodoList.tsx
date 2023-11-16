@@ -1,5 +1,6 @@
 import { Box, Card, Checkbox, Flex, Select, Strong, TextField, Text } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
+import { baseRequest } from '../../utils/services/requests';
 
 type TodoListProps = {
   categories: { color: string; id: number; name: string }[];
@@ -10,14 +11,11 @@ const TodoList = ({ categories }: TodoListProps) => {
   const [todoText, setTodoText] = useState<any>('');
 
   const addTodo = async () => {
-    const response = await fetch('http://localhost:3001/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: Date.now(), text: todoText, done: false }),
+    const todo = await baseRequest('todos', 'POST', {
+      id: Date.now(),
+      text: todoText,
+      done: false,
     });
-    const todo = await response.json();
     setTodos([...todos, todo]);
   };
 
@@ -30,14 +28,10 @@ const TodoList = ({ categories }: TodoListProps) => {
   const toggleTodo = async (id: any) => {
     const todo = todos.find((todo: any) => todo.id === id);
     if (todo) {
-      const response = await fetch(`http://localhost:3001/todos/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...todo, done: !todo.done }),
+      const updatedTodo = await baseRequest(`todos/${id}`, 'PUT', {
+        ...todo,
+        done: !todo.done,
       });
-      const updatedTodo = await response.json();
       const updatedTodos = todos.map((todo: any) => {
         if (todo.id === updatedTodo.id) {
           return updatedTodo;
@@ -52,14 +46,10 @@ const TodoList = ({ categories }: TodoListProps) => {
     const todo = todos.find((todo: any) => todo.id === parseInt(todoId));
 
     if (todo) {
-      const response = await fetch(`http://localhost:3001/todos/${todoId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...todo, categoryId: parseInt(value) }),
+      const updatedTodo = await baseRequest(`todos/${todoId}`, 'PUT', {
+        ...todo,
+        categoryId: parseInt(value),
       });
-      const updatedTodo = await response.json();
       const updatedTodos = todos.map((todo: any) => {
         if (todo.id === updatedTodo.id) {
           return updatedTodo;
@@ -72,8 +62,7 @@ const TodoList = ({ categories }: TodoListProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3001/todos');
-      const data = await response.json();
+      const data = await baseRequest('todos', 'GET');
 
       setTodos(data);
     };
