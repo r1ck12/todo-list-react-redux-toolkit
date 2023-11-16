@@ -1,6 +1,6 @@
 import { Card, Flex, Checkbox, Box, Strong, Select, Text } from '@radix-ui/themes';
 import { Category, Todo } from '../../types';
-import { baseRequest } from '../../utils/services/requests';
+import { baseRequest } from '../../services/requests';
 import { Dispatch, SetStateAction } from 'react';
 
 type TodoListItemProps = {

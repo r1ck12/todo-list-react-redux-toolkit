@@ -3,14 +3,52 @@
     {
       "id": 1700166545766,
       "text": "do a simple app",
-      "done": false,
+      "done": true,
       "categoryId": 1700166532356
     },
     {
       "id": 1700166580026,
       "text": "create a campaign",
-      "done": false,
+      "done": true,
       "categoryId": 1700166571084
+    },
+    {
+      "id": 1700167678953,
+      "text": "test",
+      "done": true,
+      "categoryId": 1700168440784
+    },
+    {
+      "id": 1700168593118,
+      "text": "test todo",
+      "done": true,
+      "categoryId": 1700166532356
+    },
+    {
+      "id": 1700169975468,
+      "text": "test todo 2",
+      "done": false,
+      "categoryId": 1700168440784
+    },
+    {
+      "id": 1700171419546,
+      "text": "test todo 3",
+      "done": false
+    },
+    {
+      "id": 1700171483623,
+      "text": "test todo 4",
+      "done": false
+    },
+    {
+      "id": 1700171792869,
+      "text": "test todo 5",
+      "done": false
+    },
+    {
+      "id": 1700172159650,
+      "text": "test todo 6",
+      "done": false
     }
   ],
   "categories": [
@@ -23,6 +61,11 @@
       "id": 1700166571084,
       "name": "social media",
       "color": "#fbfbf9"
+    },
+    {
+      "id": 1700168440784,
+      "name": "test category",
+      "color": "#8499c4"
     }
   ]
 }

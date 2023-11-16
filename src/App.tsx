@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@radix-ui/themes';
 import TodoList from './components/TodoList/TodoList';
 import Categories from './components/Categories/Categories';
-import { baseRequest } from './utils/services/requests';
+import { baseRequest } from './services/requests';
 import { Category } from './types';
 
 function App() {

@@ -2,7 +2,7 @@ export type Todo = {
   id: number;
   text: string;
   done: boolean;
-  categoryId: number;
+  categoryId?: number;
 };
 
 export type Category = {

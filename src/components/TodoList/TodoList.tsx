@@ -1,40 +1,42 @@
 import { Box, TextField } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
-import { baseRequest } from '../../utils/services/requests';
+import { baseRequest } from '../../services/requests';
 import { Category, Todo } from '../../types';
 import TodoListItem from './TodoListItem';
+import { addTodoState, useAddTodoMutation, useGetTodosQuery } from '../../services/todos';
+import { useDispatch } from 'react-redux';
 
 type TodoListProps = {
   categories: Category[];
 };
 
 const TodoList = ({ categories }: TodoListProps) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [todoText, setTodoText] = useState<string>('');
 
-  const addTodo = async () => {
-    const todo = await baseRequest('todos', 'POST', {
-      id: Date.now(),
-      text: todoText,
-      done: false,
-    });
-    setTodos([...todos, todo]);
-  };
+  const { data, error, isLoading } = useGetTodosQuery('todos');
+
+  // use redux addTodo mutation to add a todo
+  const [addTodo, result] = useAddTodoMutation();
+
+  const dispatch = useDispatch();
+
+  console.log(data);
+
+  if (!data) return null;
+
+  const todos = data;
 
   const onCreateTodoKeyDown = (e: any) => {
     if (e.key === 'Enter') {
-      addTodo();
+      const todo = {
+        id: Date.now(),
+        text: todoText,
+        done: false,
+      };
+      addTodo(todo);
+      dispatch(addTodoState(todo));
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await baseRequest('todos', 'GET');
-
-      setTodos(data);
-    };
-    fetchData();
-  }, []);
 
   return (
     <Box width="auto">
@@ -50,7 +52,7 @@ const TodoList = ({ categories }: TodoListProps) => {
       </TextField.Root>
 
       {todos.map((todo: Todo) => {
-        return <TodoListItem todo={todo} todos={todos} setTodos={setTodos} categories={categories} />;
+        return <TodoListItem key={todo.id} todo={todo} todos={todos} setTodos={() => {}} categories={categories} />;
       })}
     </Box>
   );
