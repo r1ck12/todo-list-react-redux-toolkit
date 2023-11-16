@@ -1,18 +1,19 @@
 import { Box, TextField, Card, Flex, Strong, Text } from '@radix-ui/themes';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { generatePastelColor } from '../../utils/pastelColor';
 import { baseRequest } from '../../utils/services/requests';
+import { Category } from '../../types';
 
 type CategoriesProps = {
-  categories: { color: string; id: number; name: string }[];
-  setCategories: any;
+  categories: Category[];
+  setCategories: Dispatch<SetStateAction<Category[]>>;
 };
 
 const Categories = ({ categories, setCategories }: CategoriesProps) => {
   const [categoryText, setCategoryText] = useState<any>('');
 
   const addCategory = async () => {
-    const category = await baseRequest('categories', 'POST', {
+    const category: Category = await baseRequest('categories', 'POST', {
       id: Date.now(),
       name: categoryText,
       color: generatePastelColor(),

@@ -1,14 +1,15 @@
 import { Box, Card, Checkbox, Flex, Select, Strong, TextField, Text } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import { baseRequest } from '../../utils/services/requests';
+import { Category, Todo } from '../../types';
 
 type TodoListProps = {
   categories: { color: string; id: number; name: string }[];
 };
 
 const TodoList = ({ categories }: TodoListProps) => {
-  const [todos, setTodos] = useState<any>([]);
-  const [todoText, setTodoText] = useState<any>('');
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todoText, setTodoText] = useState<string>('');
 
   const addTodo = async () => {
     const todo = await baseRequest('todos', 'POST', {
@@ -25,14 +26,14 @@ const TodoList = ({ categories }: TodoListProps) => {
     }
   };
 
-  const toggleTodo = async (id: any) => {
-    const todo = todos.find((todo: any) => todo.id === id);
+  const toggleTodo = async (id: number) => {
+    const todo = todos.find((todo: Todo) => todo.id === id);
     if (todo) {
       const updatedTodo = await baseRequest(`todos/${id}`, 'PUT', {
         ...todo,
         done: !todo.done,
       });
-      const updatedTodos = todos.map((todo: any) => {
+      const updatedTodos = todos.map((todo: Todo) => {
         if (todo.id === updatedTodo.id) {
           return updatedTodo;
         }
@@ -42,15 +43,15 @@ const TodoList = ({ categories }: TodoListProps) => {
     }
   };
 
-  const onTodoCategoryChange = async (value: any, todoId: any) => {
-    const todo = todos.find((todo: any) => todo.id === parseInt(todoId));
+  const onTodoCategoryChange = async (value: string, todoId: number) => {
+    const todo = todos.find((todo: Todo) => todo.id === todoId);
 
     if (todo) {
       const updatedTodo = await baseRequest(`todos/${todoId}`, 'PUT', {
         ...todo,
         categoryId: parseInt(value),
       });
-      const updatedTodos = todos.map((todo: any) => {
+      const updatedTodos = todos.map((todo: Todo) => {
         if (todo.id === updatedTodo.id) {
           return updatedTodo;
         }
@@ -82,13 +83,13 @@ const TodoList = ({ categories }: TodoListProps) => {
         />
       </TextField.Root>
 
-      {todos.map((todo: any) => {
+      {todos.map((todo: Todo) => {
         return (
           <Card
             my="2"
             key={todo.id}
             style={{
-              backgroundColor: categories.find((category: any) => category.id === todo.categoryId)?.color,
+              backgroundColor: categories.find((category: Category) => category.id === todo.categoryId)?.color,
             }}
           >
             <Flex gap="3" align="center">
@@ -112,12 +113,12 @@ const TodoList = ({ categories }: TodoListProps) => {
               </Box>
               <Select.Root
                 value={todo.categoryId?.toString()}
-                onValueChange={(value) => onTodoCategoryChange(value, todo.id.toString())}
+                onValueChange={(value) => onTodoCategoryChange(value, todo.id)}
               >
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
-                    {categories.map((category: any) => {
+                    {categories.map((category: Category) => {
                       return (
                         <Select.Item key={category.id} value={category.id.toString()}>
                           {category.name}
