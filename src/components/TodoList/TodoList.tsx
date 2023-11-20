@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { baseRequest } from '../../services/requests';
 import { Category, Todo } from '../../types';
 import TodoListItem from './TodoListItem';
-import { addTodoState, useAddTodoMutation, useGetTodosQuery } from '../../services/todos';
-import { useDispatch } from 'react-redux';
+import { useAddTodoMutation, useGetTodosQuery } from '../../services/todos';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../services/store';
 
 type TodoListProps = {
   categories: Category[];
@@ -13,18 +14,24 @@ type TodoListProps = {
 const TodoList = ({ categories }: TodoListProps) => {
   const [todoText, setTodoText] = useState<string>('');
 
+  
   const { data, error, isLoading } = useGetTodosQuery('todos');
-
+  
+    const state = useSelector((state: RootState) => state);
+    console.log("todosApi", state)
   // use redux addTodo mutation to add a todo
   const [addTodo, result] = useAddTodoMutation();
 
-  const dispatch = useDispatch();
-
+  
+  
   console.log(data);
-
+  
   if (!data) return null;
 
-  const todos = data;
+  const todos = data
+  
+
+
 
   const onCreateTodoKeyDown = (e: any) => {
     if (e.key === 'Enter') {
@@ -34,7 +41,6 @@ const TodoList = ({ categories }: TodoListProps) => {
         done: false,
       };
       addTodo(todo);
-      dispatch(addTodoState(todo));
     }
   };
 
