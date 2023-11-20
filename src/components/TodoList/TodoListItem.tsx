@@ -8,7 +8,7 @@ type TodoListItemProps = {
   todo: Todo;
   todos: Todo[];
   setTodos: Dispatch<SetStateAction<Todo[]>>;
-  categories: Category[];
+  categories: Category[] | undefined;
 };
 
 const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) => {
@@ -26,7 +26,7 @@ const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) 
 
     if (todo) {
       const updatedTodo = await setTodo({ ...todo, categoryId: parseInt(value) });
-      console.log(updatedTodo, 'updatedTodo')
+      console.log(updatedTodo, 'updatedTodo');
     }
   };
 
@@ -35,7 +35,9 @@ const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) 
       my="2"
       key={todo.id}
       style={{
-        backgroundColor: categories.find((category: Category) => category.id === todo.categoryId)?.color,
+        backgroundColor: categories?.length
+          ? categories.find((category: Category) => category.id === todo.categoryId)?.color
+          : '#fff',
       }}
     >
       <Flex gap="3" align="center">
@@ -64,13 +66,15 @@ const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) 
           <Select.Trigger />
           <Select.Content>
             <Select.Group>
-              {categories.map((category: Category) => {
-                return (
-                  <Select.Item key={category.id} value={category.id.toString()}>
-                    {category.name}
-                  </Select.Item>
-                );
-              })}
+              {categories?.length
+                ? categories.map((category: Category) => {
+                    return (
+                      <Select.Item key={category.id} value={category.id.toString()}>
+                        {category.name}
+                      </Select.Item>
+                    );
+                  })
+                : null}
             </Select.Group>
           </Select.Content>
         </Select.Root>

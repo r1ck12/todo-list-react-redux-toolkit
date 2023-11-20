@@ -8,28 +8,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../services/store';
 
 type TodoListProps = {
-  categories: Category[];
+  categories: Category[] | undefined;
 };
 
 const TodoList = ({ categories }: TodoListProps) => {
   const [todoText, setTodoText] = useState<string>('');
 
-  
   const { data, error, isLoading } = useGetTodosQuery('todos');
-  
-    const state = useSelector((state: RootState) => state);
-    console.log("todosApi", state)
+
+  const state = useSelector((state: RootState) => state);
+  console.log('todosApi', state);
   // use redux addTodo mutation to add a todo
   const [addTodo, result] = useAddTodoMutation();
-  
+
   console.log(data);
-  
+
   if (!data) return null;
 
-  const todos = data
-  
-
-
+  const todos = data;
 
   const onCreateTodoKeyDown = (e: any) => {
     if (e.key === 'Enter') {

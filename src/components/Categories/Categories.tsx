@@ -3,22 +3,23 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { generatePastelColor } from '../../utils/pastelColor';
 import { baseRequest } from '../../services/requests';
 import { Category } from '../../types';
+import { useAddCategoryMutation } from '../../services/todos';
 
 type CategoriesProps = {
-  categories: Category[];
-  setCategories: Dispatch<SetStateAction<Category[]>>;
+  categories: Category[] | undefined;
 };
 
-const Categories = ({ categories, setCategories }: CategoriesProps) => {
+const Categories = ({ categories }: CategoriesProps) => {
   const [categoryText, setCategoryText] = useState<any>('');
+  const [addCategoryMutation, result] = useAddCategoryMutation();
 
   const addCategory = async () => {
-    const category: Category = await baseRequest('categories', 'POST', {
+    const category: Category = {
       id: Date.now(),
       name: categoryText,
       color: generatePastelColor(),
-    });
-    setCategories([...categories, category]);
+    };
+    const result = await addCategoryMutation(category);
   };
 
   const onCreateNewCategoryKeyDown = (e: any) => {

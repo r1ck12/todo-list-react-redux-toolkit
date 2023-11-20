@@ -5,21 +5,16 @@ import TodoList from './components/TodoList/TodoList';
 import Categories from './components/Categories/Categories';
 import { baseRequest } from './services/requests';
 import { Category } from './types';
+import { useGetCategoriesQuery } from './services/todos';
 
 function App() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { data, error, isLoading } = useGetCategoriesQuery('categories');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await baseRequest('categories', 'GET');
-      setCategories(data);
-    };
-    fetchData();
-  }, []);
+  const categories = data;
 
   return (
     <Grid columns="2" gap="3" width="auto">
-      <Categories categories={categories} setCategories={setCategories} />
+      <Categories categories={categories} />
       <TodoList categories={categories} />
     </Grid>
   );
