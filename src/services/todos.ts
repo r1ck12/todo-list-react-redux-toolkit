@@ -37,4 +37,4 @@ export const todosApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTodoQuery, useGetTodosQuery, useAddTodoMutation } = todosApi
+export const { useGetTodoQuery, useGetTodosQuery, useAddTodoMutation, useSetTodoMutation } = todosApi

@@ -21,8 +21,6 @@ const TodoList = ({ categories }: TodoListProps) => {
     console.log("todosApi", state)
   // use redux addTodo mutation to add a todo
   const [addTodo, result] = useAddTodoMutation();
-
-  
   
   console.log(data);
   

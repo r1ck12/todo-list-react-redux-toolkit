@@ -2,6 +2,7 @@ import { Card, Flex, Checkbox, Box, Strong, Select, Text } from '@radix-ui/theme
 import { Category, Todo } from '../../types';
 import { baseRequest } from '../../services/requests';
 import { Dispatch, SetStateAction } from 'react';
+import { useSetTodoMutation } from '../../services/todos';
 
 type TodoListItemProps = {
   todo: Todo;
@@ -11,19 +12,12 @@ type TodoListItemProps = {
 };
 
 const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) => {
+  const [setTodo, result] = useSetTodoMutation();
+
   const toggleTodo = async (todo: Todo) => {
     if (todo) {
-      const updatedTodo = await baseRequest(`todos/${todo.id}`, 'PUT', {
-        ...todo,
-        done: !todo.done,
-      });
-      const updatedTodos = todos.map((todo: Todo) => {
-        if (todo.id === updatedTodo.id) {
-          return updatedTodo;
-        }
-        return todo;
-      });
-      setTodos(updatedTodos);
+      const updatedTodo = await setTodo({ ...todo, done: !todo.done });
+      console.log(updatedTodo, 'updatedTodo');
     }
   };
 
@@ -31,17 +25,8 @@ const TodoListItem = ({ todo, todos, setTodos, categories }: TodoListItemProps) 
     const todo = todos.find((todo: Todo) => todo.id === todoId);
 
     if (todo) {
-      const updatedTodo = await baseRequest(`todos/${todoId}`, 'PUT', {
-        ...todo,
-        categoryId: parseInt(value),
-      });
-      const updatedTodos = todos.map((todo: Todo) => {
-        if (todo.id === updatedTodo.id) {
-          return updatedTodo;
-        }
-        return todo;
-      });
-      setTodos(updatedTodos);
+      const updatedTodo = await setTodo({ ...todo, categoryId: parseInt(value) });
+      console.log(updatedTodo, 'updatedTodo')
     }
   };
 
