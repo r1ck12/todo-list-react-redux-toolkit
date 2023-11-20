@@ -1,7 +1,6 @@
 import { Box, TextField, Card, Flex, Strong, Text } from '@radix-ui/themes';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { generatePastelColor } from '../../utils/pastelColor';
-import { baseRequest } from '../../services/requests';
 import { Category } from '../../types';
 import { useAddCategoryMutation } from '../../services/todos';
 

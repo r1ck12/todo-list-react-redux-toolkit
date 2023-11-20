@@ -1,6 +1,5 @@
 import { Card, Flex, Checkbox, Box, Strong, Select, Text } from '@radix-ui/themes';
 import { Category, Todo } from '../../types';
-import { baseRequest } from '../../services/requests';
 import { Dispatch, SetStateAction } from 'react';
 import { useSetTodoMutation } from '../../services/todos';
 

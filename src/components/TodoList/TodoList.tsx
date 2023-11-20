@@ -1,10 +1,9 @@
 import { Box, TextField } from '@radix-ui/themes';
-import { useEffect, useState } from 'react';
-import { baseRequest } from '../../services/requests';
+import { useState } from 'react';
 import { Category, Todo } from '../../types';
 import TodoListItem from './TodoListItem';
 import { useAddTodoMutation, useGetTodosQuery } from '../../services/todos';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store';
 
 type TodoListProps = {
